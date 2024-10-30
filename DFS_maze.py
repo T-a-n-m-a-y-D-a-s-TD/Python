@@ -279,4 +279,3 @@ A######
 """
 pip install pillow: DFSmaze.png
 """
-
