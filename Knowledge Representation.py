@@ -1,82 +1,6 @@
 ****************************************************************************************************************************
 """
-#py file-01: clue.py
-"""
-import termcolor
-
-from logic import *
-
-mustard = Symbol("ColMustard")
-plum = Symbol("ProfPlum")
-scarlet = Symbol("MsScarlet")
-characters = [mustard, plum, scarlet]
-
-ballroom = Symbol("ballroom")
-kitchen = Symbol("kitchen")
-library = Symbol("library")
-rooms = [ballroom, kitchen, library]
-
-knife = Symbol("knife")
-revolver = Symbol("revolver")
-wrench = Symbol("wrench")
-weapons = [knife, revolver, wrench]
-
-symbols = characters + rooms + weapons
-
-
-def check_knowledge(knowledge):
-    for symbol in symbols:
-        if model_check(knowledge, symbol):
-            termcolor.cprint(f"{symbol}: YES", "green")
-        elif not model_check(knowledge, Not(symbol)):
-            print(f"{symbol}: MAYBE")
-
-
-# There must be a person, room, and weapon.
-knowledge = And(
-    Or(mustard, plum, scarlet),
-    Or(ballroom, kitchen, library),
-    Or(knife, revolver, wrench)
-)
-
-# Initial cards
-knowledge.add(And(
-    Not(mustard), Not(kitchen), Not(revolver)
-))
-
-# Unknown card
-knowledge.add(Or(
-    Not(scarlet), Not(library), Not(wrench)
-))
-
-# Known cards
-knowledge.add(Not(plum))
-knowledge.add(Not(ballroom))
-
-check_knowledge(knowledge)
-
-****************************************************************************************************************************
-"""
-#py file-02: harry.py
-"""
-from logic import *
-
-rain = Symbol("rain")
-hagrid = Symbol("hagrid")
-dumbledore = Symbol("dumbledore")
-
-knowledge = And(
-    Implication(Not(rain), hagrid),
-    Or(hagrid, dumbledore),
-    Not(And(hagrid, dumbledore)),
-    dumbledore
-)
-
-print(model_check(knowledge, rain))
-
-****************************************************************************************************************************
-"""
-#py file-03: logic.py
+#py file-01: logic.py
 """
 import itertools
 
@@ -341,6 +265,82 @@ def model_check(knowledge, query):
 
     # Check that knowledge entails query
     return check_all(knowledge, query, symbols, dict())
+
+****************************************************************************************************************************
+"""
+#py file-02: clue.py
+"""
+import termcolor
+
+from logic import *
+
+mustard = Symbol("ColMustard")
+plum = Symbol("ProfPlum")
+scarlet = Symbol("MsScarlet")
+characters = [mustard, plum, scarlet]
+
+ballroom = Symbol("ballroom")
+kitchen = Symbol("kitchen")
+library = Symbol("library")
+rooms = [ballroom, kitchen, library]
+
+knife = Symbol("knife")
+revolver = Symbol("revolver")
+wrench = Symbol("wrench")
+weapons = [knife, revolver, wrench]
+
+symbols = characters + rooms + weapons
+
+
+def check_knowledge(knowledge):
+    for symbol in symbols:
+        if model_check(knowledge, symbol):
+            termcolor.cprint(f"{symbol}: YES", "green")
+        elif not model_check(knowledge, Not(symbol)):
+            print(f"{symbol}: MAYBE")
+
+
+# There must be a person, room, and weapon.
+knowledge = And(
+    Or(mustard, plum, scarlet),
+    Or(ballroom, kitchen, library),
+    Or(knife, revolver, wrench)
+)
+
+# Initial cards
+knowledge.add(And(
+    Not(mustard), Not(kitchen), Not(revolver)
+))
+
+# Unknown card
+knowledge.add(Or(
+    Not(scarlet), Not(library), Not(wrench)
+))
+
+# Known cards
+knowledge.add(Not(plum))
+knowledge.add(Not(ballroom))
+
+check_knowledge(knowledge)
+
+****************************************************************************************************************************
+"""
+#py file-03: harry.py
+"""
+from logic import *
+
+rain = Symbol("rain")
+hagrid = Symbol("hagrid")
+dumbledore = Symbol("dumbledore")
+
+knowledge = And(
+    Implication(Not(rain), hagrid),
+    Or(hagrid, dumbledore),
+    Not(And(hagrid, dumbledore)),
+    dumbledore
+)
+
+print(model_check(knowledge, rain))
 
 ****************************************************************************************************************************
 """
