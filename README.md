@@ -8,4 +8,6 @@ print("Hola! python :)")
 Implemented AI for tic tac toe game
 99.999% impossible to win
 
+#AI Knowledge Representation
+
 #
